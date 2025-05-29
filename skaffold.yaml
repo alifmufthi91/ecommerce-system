@@ -1,0 +1,50 @@
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: ecommerce-system
+build:
+  artifacts:
+    - image: ecommerce/migration
+      context: .
+      docker:
+        dockerfile: build/docker/migration.Dockerfile
+    - image: ecommerce/user
+      context: .
+      docker:
+        dockerfile: build/docker/user.Dockerfile
+    - image: ecommerce/product
+      context: .
+      docker:
+        dockerfile: build/docker/product.Dockerfile
+    - image: ecommerce/shop
+      context: .
+      docker:
+        dockerfile: build/docker/shop.Dockerfile
+    - image: ecommerce/order
+      context: .
+      docker:
+        dockerfile: build/docker/order.Dockerfile
+    - image: ecommerce/warehouse
+      context: .
+      docker:
+        dockerfile: build/docker/warehouse.Dockerfile
+manifests:
+  rawYaml:
+    - build/k8s/namespace.yaml
+    - build/k8s/configmap.yaml
+    - build/k8s/ingress.yaml
+    - build/k8s/secret.yaml
+    - build/k8s/postgres/deployment.yaml
+    - build/k8s/postgres/pvc.yaml
+    - build/k8s/postgres/service.yaml
+    - build/k8s/migration/job.yaml
+    - build/k8s/user/deployment.yaml
+    - build/k8s/user/service.yaml
+    - build/k8s/product/deployment.yaml
+    - build/k8s/product/service.yaml
+    - build/k8s/shop/deployment.yaml
+    - build/k8s/shop/service.yaml
+    - build/k8s/order/deployment.yaml
+    - build/k8s/order/service.yaml
+    - build/k8s/warehouse/deployment.yaml
+    - build/k8s/warehouse/service.yaml

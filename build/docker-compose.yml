@@ -1,0 +1,111 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: ecommerce-db
+    image: postgres:16.3
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecommerce
+      POSTGRES_HOST_AUTH_METHOD: md5
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ecommerce"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  migration:
+    build:
+      context: ../
+      dockerfile: build/docker/migration.Dockerfile
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecommerce
+    entrypoint: []  # Add this to override the default entrypoint
+    command: [
+      "migrate",
+      "-path", "/migrations",
+      "-database", "postgres://postgres:postgres@postgres:5432/ecommerce?sslmode=disable",
+      "up"
+    ]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ecommerce-net
+    restart: "no"
+  
+  user:
+    build:
+      context: ../
+      dockerfile: build/docker/user.Dockerfile
+    ports:
+      - "8001:8080"
+    depends_on:
+      - migration
+    networks:
+      - ecommerce-net
+    restart: always
+
+  product:
+    build:
+      context: ../
+      dockerfile: build/docker/product.Dockerfile
+    ports:
+      - "8002:8080"
+    depends_on:
+      - migration
+    networks:
+      - ecommerce-net
+    restart: always
+
+  shop:
+    build:
+      context: ../
+      dockerfile: build/docker/shop.Dockerfile
+    ports:
+      - "8003:8080"
+    depends_on:
+      - migration
+    networks:
+      - ecommerce-net
+    restart: always
+
+  order:
+    build:
+      context: ../
+      dockerfile: build/docker/order.Dockerfile
+    ports:
+      - "8004:8080"
+    depends_on:
+      - migration
+    networks:
+      - ecommerce-net
+    restart: always
+
+  warehouse:
+    build:
+      context: ../
+      dockerfile: build/docker/warehouse.Dockerfile
+    ports:
+      - "8005:8080"
+    depends_on:
+      - migration
+    networks:
+      - ecommerce-net
+    restart: always
+    
+
+networks:
+  ecommerce-net:
+    driver: bridge

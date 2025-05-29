@@ -1,0 +1,4 @@
+BEGIN;
+
+DROP INDEX IF EXISTS stock_unique_key;
+COMMIT;

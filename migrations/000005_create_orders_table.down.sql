@@ -1,0 +1,7 @@
+BEGIN;
+
+DROP TABLE IF EXISTS stock_locks;
+
+DROP TABLE IF EXISTS orders;
+
+COMMIT;

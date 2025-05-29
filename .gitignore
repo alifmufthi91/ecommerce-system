@@ -1,0 +1,10 @@
+services/**/.env
+
+services/**/docs
+services/**/tmp
+
+build/data
+
+.vscode
+.idea
+.swaggo
