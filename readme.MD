@@ -83,6 +83,24 @@ Swagger documentation is available for each service:
 | Order Service | http://localhost:8004/api/docs/swagger/index.html |
 | Warehouse Service | http://localhost:8005/api/docs/swagger/index.html |
 
+## 📮 Postman Collection
+
+Import the Postman collection to test all API endpoints:
+
+1. Download the collection: [`ecommerce.postman_collection.json`](./ecommerce.postman_collection.json)
+2. Open Postman
+3. Click "Import" → "Upload Files"
+4. Select the downloaded JSON file
+
+### Environment Variables
+Set these variables in Postman:
+- `base_url`: `http://localhost` (for local development)
+- `user_port`: `8001`
+- `product_port`: `8002`
+- `shop_port`: `8003`
+- `order_port`: `8004`
+- `warehouse_port`: `8005`
+
 ## 🧪 Testing
 
 ### Unit Tests

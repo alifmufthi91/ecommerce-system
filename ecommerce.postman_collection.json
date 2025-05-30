@@ -1,0 +1,665 @@
+{
+	"info": {
+		"_postman_id": "b3a9711b-1c19-4fcb-a469-f6239f5be90e",
+		"name": "ecommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8287665"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Alex\",\n    \"email\": \"alex@mail.com\",\n    \"phone\": \"+628512332112\",\n    \"password\": \"TestPassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8001/api/users/",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email_or_phone\": \"+628512332112\",\n    \"password\": \"TestPassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8001/api/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDRjZjVjYmYtY2M0Ni00YzFiLTg0MGMtNDlmZjEwNTE5MjExIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg2OTMzNDksImlhdCI6MTc0ODYwNjk0OX0.dwdFj2gpfNopHo5CBKRs7cbseycw-5UNWQ9jpXHsZpo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Item 1\",\n    \"description\": \"description A\",\n    \"price\": 100,\n    \"shop_id\": \"f47ac10b-58cc-4372-a567-0e02b2c3d479\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8002/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDRjZjVjYmYtY2M0Ni00YzFiLTg0MGMtNDlmZjEwNTE5MjExIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg2OTMzNDksImlhdCI6MTc0ODYwNjk0OX0.dwdFj2gpfNopHo5CBKRs7cbseycw-5UNWQ9jpXHsZpo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8002/api/products",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDRjZjVjYmYtY2M0Ni00YzFiLTg0MGMtNDlmZjEwNTE5MjExIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg2OTMzNDksImlhdCI6MTc0ODYwNjk0OX0.dwdFj2gpfNopHo5CBKRs7cbseycw-5UNWQ9jpXHsZpo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8002/api/products/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"api",
+						"products",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "14c0374f-0fa3-4a02-baff-04e226910d3b"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Shops",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDRjZjVjYmYtY2M0Ni00YzFiLTg0MGMtNDlmZjEwNTE5MjExIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg2OTMzNDksImlhdCI6MTc0ODYwNjk0OX0.dwdFj2gpfNopHo5CBKRs7cbseycw-5UNWQ9jpXHsZpo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8003/api/shops",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"api",
+						"shops"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Stocks",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "test-static-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8005/api/stocks",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"stocks"
+					],
+					"query": [
+						{
+							"key": "product_id_in",
+							"value": "2ae686f2-fd3e-4672-aef2-7cc1e4b5f3b0",
+							"disabled": true
+						},
+						{
+							"key": "product_id_in",
+							"value": "9a2b7c93-7c27-4e20-842f-24bf4df95bf0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Stock Availables",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDRjZjVjYmYtY2M0Ni00YzFiLTg0MGMtNDlmZjEwNTE5MjExIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg2OTMzNDksImlhdCI6MTc0ODYwNjk0OX0.dwdFj2gpfNopHo5CBKRs7cbseycw-5UNWQ9jpXHsZpo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8005/api/stocks/availables",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"stocks",
+						"availables"
+					],
+					"query": [
+						{
+							"key": "product_id_in",
+							"value": "2ae686f2-fd3e-4672-aef2-7cc1e4b5f3b0",
+							"disabled": true
+						},
+						{
+							"key": "product_id_in",
+							"value": "9a2b7c93-7c27-4e20-842f-24bf4df95bf0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reserve Stocks",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTE3ZWMyYTgtOTNhNi00YmI5LWFhYTAtODk1MTU2ZTIzZDQ1IiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg0MjEyMDksImlhdCI6MTc0ODMzNDgwOX0.lQOZPf7sEjQiQ7eCTVRXviBgNMs6wkt1jpj4Zchpwxo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stocks\": [\n        {\n            \"product_id\": \"14c0374f-0fa3-4a02-baff-04e226910d3b\",\n            \"quantity\": 5\n        },\n        {\n            \"product_id\": \"9a2b7c93-7c27-4e20-842f-24bf4df95bf0\",\n            \"quantity\": 10\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8005/api/stocks/reserve",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"stocks",
+						"reserve"
+					],
+					"query": [
+						{
+							"key": "product_id_in",
+							"value": "2ae686f2-fd3e-4672-aef2-7cc1e4b5f3b0",
+							"disabled": true
+						},
+						{
+							"key": "product_id_in",
+							"value": "9a2b7c93-7c27-4e20-842f-24bf4df95bf0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rollback Reserves",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTE3ZWMyYTgtOTNhNi00YmI5LWFhYTAtODk1MTU2ZTIzZDQ1IiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg0MjEyMDksImlhdCI6MTc0ODMzNDgwOX0.lQOZPf7sEjQiQ7eCTVRXviBgNMs6wkt1jpj4Zchpwxo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stocks\": [\n        {\n            \"product_id\": \"14c0374f-0fa3-4a02-baff-04e226910d3b\",\n            \"warehouse_id\": \"a0ebb46d-6482-405c-a340-c4a144591fce\",\n            \"quantity\": 10\n        },\n        {\n            \"product_id\": \"9a2b7c93-7c27-4e20-842f-24bf4df95bf0\",\n            \"warehouse_id\": \"a0ebb46d-6482-405c-a340-c4a144591fce\",\n            \"quantity\": 9\n        },\n        {\n            \"product_id\": \"9a2b7c93-7c27-4e20-842f-24bf4df95bf0\",\n            \"warehouse_id\": \"8f1cc115-4434-4829-81c4-23fb01aa0dc0\",\n            \"quantity\": 1\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8005/api/stocks/rollback",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"stocks",
+						"rollback"
+					],
+					"query": [
+						{
+							"key": "product_id_in",
+							"value": "2ae686f2-fd3e-4672-aef2-7cc1e4b5f3b0",
+							"disabled": true
+						},
+						{
+							"key": "product_id_in",
+							"value": "9a2b7c93-7c27-4e20-842f-24bf4df95bf0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Commit Reserves",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTE3ZWMyYTgtOTNhNi00YmI5LWFhYTAtODk1MTU2ZTIzZDQ1IiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg1MjIzNjIsImlhdCI6MTc0ODQzNTk2Mn0.X4_HK3eMQ7hZ7tec8H_soeiiXxCwX_Ebpu6kcKvGW2A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stocks\": [\n        {\n            \"product_id\": \"14c0374f-0fa3-4a02-baff-04e226910d3b\",\n            \"warehouse_id\": \"a0ebb46d-6482-405c-a340-c4a144591fce\",\n            \"quantity\": 5\n        },\n        {\n            \"product_id\": \"9a2b7c93-7c27-4e20-842f-24bf4df95bf0\",\n            \"warehouse_id\": \"8f1cc115-4434-4829-81c4-23fb01aa0dc0\",\n            \"quantity\": 10\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8005/api/stocks/commit",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"stocks",
+						"commit"
+					],
+					"query": [
+						{
+							"key": "product_id_in",
+							"value": "2ae686f2-fd3e-4672-aef2-7cc1e4b5f3b0",
+							"disabled": true
+						},
+						{
+							"key": "product_id_in",
+							"value": "9a2b7c93-7c27-4e20-842f-24bf4df95bf0",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Warehouses",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTAyMGM0YTEtZjgyMy00ZDY2LTgwMmUtMjM5MzcyNzljM2UwIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg1ODQ5OTAsImlhdCI6MTc0ODQ5ODU5MH0.MQT_krogS_Wwgm4FaAcodiYOiDV4LP5pFQH6eblPKss",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8005/api/warehouses",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"warehouses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Warehouse Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTE3ZWMyYTgtOTNhNi00YmI5LWFhYTAtODk1MTU2ZTIzZDQ1IiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg0MjEyMDksImlhdCI6MTc0ODMzNDgwOX0.lQOZPf7sEjQiQ7eCTVRXviBgNMs6wkt1jpj4Zchpwxo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8005/api/warehouses/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"warehouses",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "c3c2c921-8abd-4d1c-ba56-4a9e7d8c9df6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer Stock",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "test-static-key",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from_warehouse_id\": \"8f1cc115-4434-4829-81c4-23fb01aa0dc0\",\n    \"to_warehouse_id\": \"14c0374f-0fa3-4a02-baff-04e226910d3b\",\n    \"product_id\": \"9a2b7c93-7c27-4e20-842f-24bf4df95bf0\",\n    \"quantity\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8005/api/stocks/transfer",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"api",
+						"stocks",
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTAyMGM0YTEtZjgyMy00ZDY2LTgwMmUtMjM5MzcyNzljM2UwIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg1ODQ5OTAsImlhdCI6MTc0ODQ5ODU5MH0.MQT_krogS_Wwgm4FaAcodiYOiDV4LP5pFQH6eblPKss",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8004/api/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8004",
+					"path": [
+						"api",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "status_in",
+							"value": "completed",
+							"disabled": true
+						},
+						{
+							"key": "product_id_in",
+							"value": "a17ec2a8-93a6-4bb9-aaa0-895156e23d45",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDRjZjVjYmYtY2M0Ni00YzFiLTg0MGMtNDlmZjEwNTE5MjExIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg2OTMzNDksImlhdCI6MTc0ODYwNjk0OX0.dwdFj2gpfNopHo5CBKRs7cbseycw-5UNWQ9jpXHsZpo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product_id\": \"9a2b7c93-7c27-4e20-842f-24bf4df95bf0\",\n    \"quantity\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8004/api/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8004",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZDRjZjVjYmYtY2M0Ni00YzFiLTg0MGMtNDlmZjEwNTE5MjExIiwidXNlcl9uYW1lIjoiQWxleCIsInVzZXJfZW1haWwiOiJhbGV4QG1haWwuY29tIiwidXNlcl9waG9uZSI6Iis2Mjg1MTIzMzIxMTIiLCJleHAiOjE3NDg2OTMzNDksImlhdCI6MTc0ODYwNjk0OX0.dwdFj2gpfNopHo5CBKRs7cbseycw-5UNWQ9jpXHsZpo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:8004/api/orders/:id/complete",
+					"host": [
+						"localhost"
+					],
+					"port": "8004",
+					"path": [
+						"api",
+						"orders",
+						":id",
+						"complete"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6bf70709-503b-4ff4-b21c-c0c35c39b208"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
