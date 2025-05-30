@@ -63,18 +63,13 @@ func (h *orderHandler) CreateOrder(c *gin.Context) {
 	defer span.End()
 
 	var req payload.CreateOrderReq
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err := c.BindJSON(&req); err != nil {
 		span.SetStatus(codes.Error, err.Error())
 		httpresp.HttpRespError(c, err)
 		return
 	}
 
 	claims := auth.GetClaimsFromContext(c)
-	if claims == nil {
-		span.SetStatus(codes.Error, "unauthorized access")
-		httpresp.HttpRespError(c, apperr.NewWithCode(apperr.CodeHTTPUnauthorized, `Not authorized`))
-		return
-	}
 
 	req.UserID = claims.UserID
 	req.Token = claims.Token
@@ -112,11 +107,6 @@ func (h *orderHandler) CompleteOrder(c *gin.Context) {
 	}
 
 	claims := auth.GetClaimsFromContext(c)
-	if claims == nil {
-		span.SetStatus(codes.Error, "unauthorized access")
-		httpresp.HttpRespError(c, apperr.NewWithCode(apperr.CodeHTTPUnauthorized, `Not authorized`))
-		return
-	}
 
 	var req payload.CompleteOrderReq
 	req.OrderID = id

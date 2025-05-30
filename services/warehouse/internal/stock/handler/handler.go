@@ -31,6 +31,7 @@ func (h stockHandler) RegisterRoutes(base *gin.RouterGroup) {
 	g.Use(middleware.JwtMiddleware(h.config))
 
 	g.GET("", h.GetStocks)
+	g.POST("", h.CreateStock)
 	g.POST("/transfer", h.TransferStock)
 	g.GET("/availables", h.GetAvailableStocksByProduct)
 	g.POST("/reserve", h.ReserveStocks)

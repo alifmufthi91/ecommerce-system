@@ -23,6 +23,7 @@ type DB struct {
 
 type Token struct {
 	JWTSecret []byte
+	JWTStatic string
 }
 
 func LoadConfig() (*Config, error) {
@@ -46,6 +47,7 @@ func LoadConfig() (*Config, error) {
 		},
 		Token: Token{
 			JWTSecret: []byte(viper.GetString("JWT_SECRET")),
+			JWTStatic: viper.GetString("JWT_STATIC"),
 		},
 	}
 

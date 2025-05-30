@@ -66,7 +66,7 @@ func (h *warehouseHandler) UpdateWarehouse(c *gin.Context) {
 	}
 
 	var req payload.UpdateWarehouseReq
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err := c.ShouldBind(&req); err != nil {
 		span.SetStatus(codes.Error, err.Error())
 		errResp := strings.Join(utils.ParseBindErrors(err), "; ")
 		fmt.Println(errResp)

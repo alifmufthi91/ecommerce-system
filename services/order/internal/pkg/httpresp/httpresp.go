@@ -9,6 +9,7 @@ import (
 	"github.com/alifmufthi91/ecommerce-system/services/order/internal/pkg"
 	"github.com/alifmufthi91/ecommerce-system/services/order/internal/pkg/apperr"
 	"github.com/alifmufthi91/ecommerce-system/services/order/internal/pkg/observ"
+	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -21,6 +22,7 @@ type Meta struct {
 	Error      error       `json:"error,omitempty" swaggerignore:"true"`
 	Timestamp  string      `json:"timestamp"`
 	TraceID    string      `json:"trace_id"`
+	RequestID  string      `json:"request_id"`
 	Data       interface{} `json:"data"`
 }
 
@@ -30,6 +32,7 @@ type Response struct {
 	Pagination *Pagination `json:"pagination,omitempty"`
 	Success    string      `json:"success"`
 	TraceID    string      `json:"trace_id"`
+	RequestID  string      `json:"request_id"`
 }
 
 type Pagination struct {
@@ -65,6 +68,7 @@ func HttpRespError(c *gin.Context, err error, data ...interface{}) {
 	defer span.End()
 
 	traceID, spanID := observ.ReadTraceID(c.Request.Context())
+	requestID := requestid.Get(c)
 
 	debugMode := false
 	lang := "ID"
@@ -85,6 +89,7 @@ func HttpRespError(c *gin.Context, err error, data ...interface{}) {
 			Error:      displayError,
 			Timestamp:  time.Now().Format(time.RFC3339),
 			TraceID:    traceID,
+			RequestID:  requestID,
 		},
 	}
 
@@ -117,6 +122,7 @@ func HttpRespError(c *gin.Context, err error, data ...interface{}) {
 
 func HttpRespSuccess(c *gin.Context, data interface{}, pagination *Pagination) {
 	traceID, _ := observ.ReadTraceID(c.Request.Context())
+	requestID := requestid.Get(c)
 
 	kind := reflect.ValueOf(data).Kind()
 	if kind == reflect.Slice || kind == reflect.Array {
@@ -132,5 +138,6 @@ func HttpRespSuccess(c *gin.Context, data interface{}, pagination *Pagination) {
 		Pagination: pagination,
 		Success:    "success",
 		TraceID:    traceID,
+		RequestID:  requestID,
 	})
 }

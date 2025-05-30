@@ -3,6 +3,8 @@ services/**/.env
 services/**/docs
 services/**/tmp
 
+services/**/coverage.out
+
 build/data
 
 .vscode

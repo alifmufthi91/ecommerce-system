@@ -206,3 +206,33 @@ func (h *stockHandler) CommitReserves(c *gin.Context) {
 
 	httpresp.HttpRespSuccess(c, "success", nil)
 }
+
+// @Summary		Stock - Create Stock
+// @Description	create a new stock
+// @Tags		Stock
+// @Accept		json
+// @Produce		json
+// @Param		request	body	payload.CreateStockReq	true	"create stock request body"
+// @Success		200	{object}	httpresp.Response{data=string}
+// @Failure		400	{object}	httpresp.HTTPErrResp
+// @Failure		404	{object}	httpresp.HTTPErrResp
+// @Failure		500	{object}	httpresp.HTTPErrResp
+// @Security	BearerAuth
+// @Router		/stocks [post]
+func (h *stockHandler) CreateStock(c *gin.Context) {
+	ctx, span := observ.GetTracer().Start(c.Request.Context(), "stockHandler.CreateStock")
+	defer span.End()
+
+	var req payload.CreateStockReq
+	if err := c.BindJSON(&req); err != nil {
+		errResp := strings.Join(utils.ParseBindErrors(err), "; ")
+		httpresp.HttpRespError(c, apperr.WrapWithCode(err, apperr.CodeHTTPBadRequest, errResp))
+		return
+	}
+	if err := h.stockService.CreateStock(ctx, req); err != nil {
+		span.SetStatus(codes.Error, err.Error())
+		httpresp.HttpRespError(c, err)
+		return
+	}
+	httpresp.HttpRespSuccess(c, "success", nil)
+}

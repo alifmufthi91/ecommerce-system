@@ -11,16 +11,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	JWTStaticAdminEmail = "admin@ecommerce.com"
+)
+
 func JwtMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		ctx.Writer.Header().Set("Content-Type", "application/json")
 		secretKey := cfg.Token.JWTSecret
+		staticToken := cfg.Token.JWTStatic
 
 		// token claims
 		claims := &auth.CustomClaims{}
 		headerToken, err := ParseTokenFromHeader(cfg, ctx)
 		if err != nil {
 			httpresp.HttpRespError(ctx, err)
+			return
+		}
+
+		if headerToken == staticToken {
+			// if static token, set claims with static token
+			claims.UserEmail = JWTStaticAdminEmail
+			ctx.Set(constant.XUserEmail, claims.UserEmail)
+			ctx.Set(auth.ContextClaimKey, claims)
+			ctx.Next()
 			return
 		}
 

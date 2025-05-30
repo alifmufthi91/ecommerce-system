@@ -16,32 +16,32 @@ spec:
           service:
             name: user
             port:
-              number: 80
+              number: 8080
       - path: /api/products
         pathType: Prefix
         backend:
           service:
             name: product
             port:
-              number: 80
+              number: 8080
       - path: /api/shops
         pathType: Prefix
         backend:
           service:
             name: shop
             port:
-              number: 80
+              number: 8080
       - path: /api/orders
         pathType: Prefix
         backend:
           service:
             name: order
             port:
-              number: 80
+              number: 8080
       - path: /api/warehouses
         pathType: Prefix
         backend:
           service:
             name: warehouse
             port:
-              number: 80
+              number: 8080

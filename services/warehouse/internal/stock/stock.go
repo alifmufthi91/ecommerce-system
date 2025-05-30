@@ -20,7 +20,7 @@ func NewStockModule(opts Options) *StockModule {
 
 	stockRepo := repository.NewStockRepository(opts.Db)
 
-	stockService := service.NewStockService(opts.Config, opts.Db, stockRepo)
+	stockService := service.NewStockService(opts.Config, opts.Logger, opts.Db, stockRepo)
 
 	registry.RegisterRouter(handler.NewHandler(opts.Router, opts.Config, opts.Logger, stockService))
 

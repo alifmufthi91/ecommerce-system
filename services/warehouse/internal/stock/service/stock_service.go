@@ -5,6 +5,7 @@ import (
 
 	"github.com/alifmufthi91/ecommerce-system/services/warehouse/config"
 	"github.com/alifmufthi91/ecommerce-system/services/warehouse/internal/model"
+	"github.com/alifmufthi91/ecommerce-system/services/warehouse/internal/pkg"
 	"github.com/alifmufthi91/ecommerce-system/services/warehouse/internal/pkg/apperr"
 	"github.com/alifmufthi91/ecommerce-system/services/warehouse/internal/pkg/observ"
 	"github.com/alifmufthi91/ecommerce-system/services/warehouse/internal/stock/payload"
@@ -21,17 +22,20 @@ type StockService interface {
 	ReserveStocks(ctx context.Context, req payload.ReserveStocksReq) ([]payload.ReserveStocksResp, error)
 	RollbackReserves(ctx context.Context, req payload.RollbackReservesReq) error
 	CommitReserves(ctx context.Context, req payload.CommitReservesReq) error
+	CreateStock(ctx context.Context, req payload.CreateStockReq) error
 }
 
 type stockService struct {
 	config    *config.Config
+	logger    *pkg.Logger
 	stockRepo repository.StockRepository
 	db        *gorm.DB
 }
 
-func NewStockService(config *config.Config, db *gorm.DB, stockRepo repository.StockRepository) StockService {
+func NewStockService(config *config.Config, logger *pkg.Logger, db *gorm.DB, stockRepo repository.StockRepository) StockService {
 	return &stockService{
 		config:    config,
+		logger:    logger,
 		stockRepo: stockRepo,
 		db:        db,
 	}
@@ -53,6 +57,28 @@ func (s *stockService) GetStocks(ctx context.Context, req payload.GetStocksReq) 
 	}
 
 	return stocks, nil
+}
+
+func (s *stockService) CreateStock(ctx context.Context, req payload.CreateStockReq) (err error) {
+	ctx, span := observ.GetTracer().Start(ctx, "stockService.CreateStock")
+	defer span.End()
+	defer func() {
+		if err != nil {
+			span.SetStatus(codes.Error, err.Error())
+			span.RecordError(err)
+		}
+	}()
+
+	err = s.stockRepo.CreateStock(ctx, &model.WarehouseStock{
+		WarehouseID: req.WarehouseID,
+		ProductID:   req.ProductID,
+		Quantity:    req.Quantity,
+	})
+	if err != nil {
+		return apperr.WrapWithCode(err, apperr.CodeHTTPInternalServerError, "failed to create stock")
+	}
+
+	return nil
 }
 
 func (s *stockService) TransferStock(ctx context.Context, req payload.TransferStockReq) (err error) {
@@ -123,6 +149,12 @@ func (s *stockService) TransferStock(ctx context.Context, req payload.TransferSt
 		}
 	}
 
+	s.logger.WithContext(ctx).Infow("Transferring stock",
+		"from_warehouse_id", req.FromWarehouseID,
+		"to_warehouse_id", req.ToWarehouseID,
+		"product_id", req.ProductID,
+		"quantity", req.Quantity,
+	)
 	err = s.stockRepo.WithTX(tx).CreateStockTransfer(ctx, &model.StockTransfer{
 		FromWarehouseID: req.FromWarehouseID,
 		ToWarehouseID:   req.ToWarehouseID,
@@ -188,7 +220,8 @@ func (s *stockService) ReserveStocks(ctx context.Context, req payload.ReserveSto
 		demandQty := stock.Quantity
 		for _, s := range stocks {
 			if s.ProductID.String() == stock.ProductID {
-				reserveQty := min(demandQty, s.Quantity)
+				availableQty := s.Quantity - s.Reserved
+				reserveQty := min(demandQty, availableQty)
 				if reserveQty == 0 {
 					continue
 				}

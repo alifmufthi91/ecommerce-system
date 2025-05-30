@@ -10,6 +10,7 @@ import (
 	"github.com/alifmufthi91/ecommerce-system/services/product/internal/pkg/utils"
 	"github.com/alifmufthi91/ecommerce-system/services/product/internal/product/payload"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"go.opentelemetry.io/otel/codes"
 )
 
@@ -63,10 +64,6 @@ func (h *productHandler) GetProducts(c *gin.Context) {
 	defer span.End()
 
 	claims := auth.GetClaimsFromContext(c)
-	if claims == nil {
-		httpresp.HttpRespError(c, apperr.NewWithCode(apperr.CodeHTTPUnauthorized, `Not authorized`))
-		return
-	}
 
 	products, err := h.productService.GetProducts(ctx, claims.Token)
 	if err != nil {
@@ -95,12 +92,14 @@ func (h *productHandler) GetProductByID(c *gin.Context) {
 	defer span.End()
 
 	productID := c.Param("id")
-	if productID == "" {
-		httpresp.HttpRespError(c, apperr.NewWithCode(apperr.CodeHTTPBadRequest, "product ID is required"))
+	parsedID, err := uuid.Parse(productID)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+		httpresp.HttpRespError(c, apperr.NewWithCode(apperr.CodeHTTPBadRequest, "invalid product ID"))
 		return
 	}
 
-	product, err := h.productService.GetProductByID(ctx, productID)
+	product, err := h.productService.GetProductByID(ctx, parsedID.String())
 	if err != nil {
 		span.SetStatus(codes.Error, err.Error())
 		httpresp.HttpRespError(c, err)

@@ -1,12 +1,14 @@
 package cmd
 
 import (
+	"context"
 	"database/sql"
 	"net/http"
 	"time"
 
 	"github.com/alifmufthi91/ecommerce-system/services/warehouse/config"
 	"github.com/gin-gonic/gin"
+	ginprometheus "github.com/zsais/go-gin-prometheus"
 
 	docs "github.com/alifmufthi91/ecommerce-system/services/warehouse/docs"
 	"github.com/alifmufthi91/ecommerce-system/services/warehouse/internal/pkg"
@@ -44,9 +46,9 @@ func InitRest(config *config.Config) *gin.Engine {
 
 func RegisterServiceRouter(config *config.Config, router *gin.Engine, db *sql.DB, logger *pkg.Logger) {
 	serviceRouter := router.Group("/api")
-	serviceRouter.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "OK"})
-	})
+	router.GET("/health", checkHealth(db, logger))
+	p := ginprometheus.NewPrometheus("gin")
+	p.Use(router)
 
 	serviceRouter.Use(requestid.New())
 	serviceRouter.Use(RequestLogger())
@@ -88,5 +90,42 @@ func RequestLogger() gin.HandlerFunc {
 
 		// Process the request
 		c.Next()
+	}
+}
+
+func checkHealth(db *sql.DB, logger *pkg.Logger) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		servicesStatus := make(gin.H)
+		var status string
+
+		if err := db.PingContext(ctx); err != nil {
+			servicesStatus["database"] = "failed"
+		} else {
+			servicesStatus["database"] = "healthy"
+		}
+
+		// Determine overall health status
+		for _, s := range servicesStatus {
+			if s == "failed" {
+				status = "failed"
+				break
+			}
+		}
+
+		if status == "failed" {
+			c.JSON(http.StatusServiceUnavailable, gin.H{
+				"message": "failed",
+				"status":  servicesStatus,
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"message": "OK",
+			"status":  servicesStatus,
+		})
 	}
 }
